@@ -4,7 +4,7 @@ This project is a real-time voice assistant built for the Vikara.ai Assessment. 
 🚀 Live Demo & Testing
 
 You can access and test the agent here: Click here to test Riley.
-https://dashboard.vapi.ai/assistants/7dd026c8-74b3-42b0-91e1-a2d8cb9769b7#recording-consent
+[https://dashboard.vapi.ai/assistants/7dd026c8-74b3-42b0-91e1-a2d8cb9769b7#recording-consent](https://dashboard.vapi.ai/assistants/7dd026c8-74b3-42b0-91e1-a2d8cb9769b7)
 
 🛠️ The Tech Stack
 
