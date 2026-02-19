@@ -48,10 +48,20 @@
                 "__IMTCONN__": 5339479
             },
             "mapper": {
-                "select": "quick",
+                "select": "detail",
                 "calendar": "sm5474432@gmail.com",
-                "text": "Meeting with",
-                "conferenceDate": false
+                "summary": "{{2.title}}",
+                "conferenceDate": false,
+                "allDayEvent": false,
+                "start": "{{2.date}} {{2.time}}",
+                "end": "{{2.date}} {{2.time}}",
+                "transparency": "opaque",
+                "visibility": "default",
+                "guestPermissions": {
+                    "guestsCanModify": false,
+                    "guestsCanInviteOthers": true,
+                    "guestsCanSeeOtherGuests": true
+                }
             },
             "metadata": {
                 "designer": {
@@ -61,7 +71,7 @@
                 "restore": {
                     "parameters": {
                         "__IMTCONN__": {
-                            "label": "My Google connection",
+                            "label": "My Google connection (sm5474432@gmail.com)",
                             "data": {
                                 "scoped": "true",
                                 "connection": "google"
@@ -70,7 +80,7 @@
                     },
                     "expect": {
                         "select": {
-                            "label": "Quickly"
+                            "label": "In Detail"
                         },
                         "calendar": {
                             "mode": "chose",
@@ -80,6 +90,38 @@
                             "mode": "chose"
                         },
                         "attendees": {
+                            "mode": "chose"
+                        },
+                        "allDayEvent": {
+                            "mode": "chose"
+                        },
+                        "eventType": {
+                            "mode": "chose",
+                            "label": "Empty"
+                        },
+                        "colorId": {
+                            "mode": "chose",
+                            "label": "Empty"
+                        },
+                        "overrides": {
+                            "mode": "chose"
+                        },
+                        "transparency": {
+                            "mode": "chose",
+                            "label": "Busy"
+                        },
+                        "visibility": {
+                            "mode": "chose",
+                            "label": "Default"
+                        },
+                        "sendUpdates": {
+                            "mode": "chose",
+                            "label": "Empty"
+                        },
+                        "recurrence": {
+                            "mode": "chose"
+                        },
+                        "attachments": {
                             "mode": "chose"
                         }
                     }
@@ -112,7 +154,7 @@
                         "required": true
                     },
                     {
-                        "name": "text",
+                        "name": "summary",
                         "type": "text",
                         "label": "Event Name",
                         "required": true
@@ -130,6 +172,11 @@
                         "spec": {
                             "spec": [
                                 {
+                                    "name": "displayName",
+                                    "type": "text",
+                                    "label": "Name"
+                                },
+                                {
                                     "name": "email",
                                     "type": "email",
                                     "label": "Email",
@@ -142,100 +189,179 @@
                         }
                     },
                     {
-                        "name": "select",
-                        "type": "select",
-                        "label": "Create an Event",
+                        "name": "allDayEvent",
+                        "type": "boolean",
+                        "label": "All Day Event",
+                        "required": true
+                    },
+                    {
+                        "name": "start",
+                        "type": "date",
+                        "label": "Start Date",
                         "required": true,
+                        "time": true
+                    },
+                    {
+                        "name": "end",
+                        "type": "date",
+                        "label": "End Date",
+                        "time": true
+                    },
+                    {
+                        "name": "duration",
+                        "type": "time",
+                        "label": "Duration"
+                    },
+                    {
+                        "name": "eventType",
+                        "type": "select",
+                        "label": "Event Type",
                         "validate": {
                             "enum": [
-                                "quick",
-                                "detail"
+                                "outOfOffice",
+                                "focusTime"
                             ]
                         }
                     },
                     {
-                        "name": "calendar",
+                        "name": "colorId",
                         "type": "select",
-                        "label": "Calendar ID",
-                        "required": true
+                        "label": "Color"
                     },
                     {
-                        "name": "text",
+                        "name": "description",
                         "type": "text",
-                        "label": "Event Name",
-                        "required": true
+                        "label": "Description"
                     },
                     {
-                        "name": "conferenceDate",
+                        "name": "location",
+                        "type": "text",
+                        "label": "Location"
+                    },
+                    {
+                        "name": "useDefault",
                         "type": "boolean",
-                        "label": "Add Google Meet Video Conferencing",
-                        "required": true
+                        "label": "Use the default reminder settings for this event"
                     },
                     {
-                        "name": "attendees",
+                        "name": "overrides",
                         "type": "array",
-                        "label": "Attendees",
-                        "spec": {
-                            "spec": [
-                                {
-                                    "name": "email",
-                                    "type": "email",
-                                    "label": "Email",
-                                    "required": true
+                        "label": "Reminders",
+                        "validate": {
+                            "maxItems": 5
+                        },
+                        "spec": [
+                            {
+                                "name": "method",
+                                "type": "select",
+                                "label": "Method",
+                                "options": [
+                                    {
+                                        "label": "Email",
+                                        "value": "email"
+                                    },
+                                    {
+                                        "label": "Pop-up",
+                                        "value": "popup"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            {
+                                "name": "minutes",
+                                "type": "uinteger",
+                                "label": "Minutes",
+                                "required": true,
+                                "validate": {
+                                    "max": 40320
                                 }
-                            ],
-                            "type": "collection",
-                            "label": "Attendee",
-                            "name": "value"
-                        }
+                            }
+                        ]
                     },
                     {
-                        "name": "select",
+                        "name": "transparency",
                         "type": "select",
-                        "label": "Create an Event",
+                        "label": "Show me as",
                         "required": true,
                         "validate": {
                             "enum": [
-                                "quick",
-                                "detail"
+                                "opaque",
+                                "transparent"
                             ]
                         }
                     },
                     {
-                        "name": "calendar",
+                        "name": "visibility",
                         "type": "select",
-                        "label": "Calendar ID",
-                        "required": true
+                        "label": "Visibility",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "default",
+                                "public",
+                                "private"
+                            ]
+                        }
                     },
                     {
-                        "name": "text",
-                        "type": "text",
-                        "label": "Event Name",
-                        "required": true
+                        "name": "sendUpdates",
+                        "type": "select",
+                        "label": "Send notifications about the event creation",
+                        "validate": {
+                            "enum": [
+                                "all",
+                                "externalOnly",
+                                "none"
+                            ]
+                        }
                     },
                     {
-                        "name": "conferenceDate",
-                        "type": "boolean",
-                        "label": "Add Google Meet Video Conferencing",
-                        "required": true
+                        "name": "guestPermissions",
+                        "type": "collection",
+                        "label": "Guest Permissions",
+                        "spec": [
+                            {
+                                "name": "guestsCanModify",
+                                "type": "boolean",
+                                "label": "Modify event",
+                                "required": true
+                            },
+                            {
+                                "name": "guestsCanInviteOthers",
+                                "type": "boolean",
+                                "label": "Invite others",
+                                "required": true
+                            },
+                            {
+                                "name": "guestsCanSeeOtherGuests",
+                                "type": "boolean",
+                                "label": "See guest list",
+                                "required": true
+                            }
+                        ]
                     },
                     {
-                        "name": "attendees",
+                        "name": "recurrence",
                         "type": "array",
-                        "label": "Attendees",
+                        "label": "Recurrence",
                         "spec": {
-                            "spec": [
-                                {
-                                    "name": "email",
-                                    "type": "email",
-                                    "label": "Email",
-                                    "required": true
-                                }
-                            ],
-                            "type": "collection",
-                            "label": "Attendee",
+                            "type": "text",
+                            "label": "Value",
                             "name": "value"
                         }
+                    },
+                    {
+                        "name": "attachments",
+                        "type": "array",
+                        "label": "Attachments",
+                        "spec": [
+                            {
+                                "name": "fileUrl",
+                                "type": "url",
+                                "label": "File URL",
+                                "required": true
+                            }
+                        ]
                     }
                 ]
             }
@@ -247,7 +373,7 @@
             "parameters": {},
             "mapper": {
                 "status": "200",
-                "body": "{\"status\": \"success\"}",
+                "body": "{\"status\": \"success\", \"message\": \"Event scheduled successfully\"}",
                 "headers": []
             },
             "metadata": {
